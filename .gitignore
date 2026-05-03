@@ -1,0 +1,17 @@
+# Claude Code config local
+.claude/
+CLAUDE.md
+
+# Scripts internos / herramientas de mantenimiento
+compress_images.py
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
