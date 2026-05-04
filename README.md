@@ -1,6 +1,6 @@
-# Portfolio — Simon
+# Portfolio — Saimon
 
-Portfolio personal de Simon, editor de video especializado en Reels, VSLs, motion graphics y YouTube long-form para marcas personales y ecommerce.
+Portfolio personal de Saimon, editor de video especializado en Reels, VSLs, motion graphics y YouTube long-form para marcas personales y ecommerce.
 
 ## Stack
 
