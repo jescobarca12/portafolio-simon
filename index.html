@@ -36,58 +36,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── GRAIN CINEMATOGRÁFICO ────────────────────────────────
-   En blanco, el grain con mix-blend-mode: multiply simula
-   exactamente la granularidad de una impresión fotográfica
-   en papel — el efecto más "cineasta" posible.
-   ─────────────────────────────────────────────────────── */
-.grain {
-  position: fixed; inset: -100px; z-index: 9000;
-  pointer-events: none;
-  width: calc(100% + 200px); height: calc(100% + 200px);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.09;
-  mix-blend-mode: multiply;   /* grano oscuro sobre fondo claro */
-  animation: grain-shake 0.35s steps(1) infinite;
-}
-@keyframes grain-shake {
-  0%   { transform: translate(0,    0)    }
-  14%  { transform: translate(-3%,  -5%)  }
-  28%  { transform: translate( 5%,  -2%)  }
-  42%  { transform: translate(-2%,   4%)  }
-  57%  { transform: translate( 4%,   3%)  }
-  71%  { transform: translate(-4%,  -3%)  }
-  85%  { transform: translate( 2%,   5%)  }
-  100% { transform: translate(-1%,  -1%)  }
-}
-
-/* ─── CURSOR ─────────────────────────────────────────────── */
-@media (pointer: fine) { body { cursor: none; } }
-
-.cursor-dot {
-  position: fixed; z-index: 9999; pointer-events: none;
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--ink);
-  transform: translate(-50%, -50%);
-  mix-blend-mode: multiply;
-  transition: width .35s var(--expo), height .35s var(--expo), background .35s;
-}
-.cursor-ring {
-  position: fixed; z-index: 9998; pointer-events: none;
-  width: 36px; height: 36px; border-radius: 50%;
-  border: 1px solid rgba(14,12,10,0.3);
-  transform: translate(-50%, -50%);
-}
-.cursor-label {
-  position: fixed; z-index: 9999; pointer-events: none;
-  font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--bg); transform: translate(-50%, -50%);
-  opacity: 0; transition: opacity 0.3s; white-space: nowrap;
-}
-body.c-hover .cursor-dot   { width: 54px; height: 54px; background: var(--ink); }
-body.c-hover .cursor-ring  { opacity: 0; }
-body.c-hover .cursor-label { opacity: 1; }
-
 /* ─── PRELOADER ──────────────────────────────────────────── */
 #preloader {
   position: fixed; inset: 0; z-index: 8000;
@@ -145,7 +93,7 @@ body.c-hover .cursor-label { opacity: 1; }
   font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
   background: transparent; color: var(--ink);
   border: 1px solid var(--ink);
-  padding: 0.55rem 1.2rem; text-decoration: none; cursor: none;
+  padding: 0.55rem 1.2rem; text-decoration: none; cursor: pointer;
   position: relative; overflow: hidden; isolation: isolate;
   transition: border-color 0.45s var(--expo);
 }
@@ -295,7 +243,7 @@ body.c-hover .cursor-label { opacity: 1; }
   font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase;
   padding: 0.48rem 1.1rem; border: 1px solid var(--border);
   background: transparent; color: var(--ink-muted);
-  cursor: none; user-select: none;
+  cursor: pointer; user-select: none;
   position: relative; overflow: hidden;
   transition: color 0.3s var(--expo), border-color 0.25s;
 }
@@ -317,7 +265,7 @@ body.c-hover .cursor-label { opacity: 1; }
 }
 .work-item {
   position: relative; overflow: hidden;
-  aspect-ratio: 4/3; cursor: none;
+  aspect-ratio: 4/3; cursor: pointer;
   background: var(--bg3);
 }
 .work-item.hidden { display: none; }
@@ -328,13 +276,6 @@ body.c-hover .cursor-label { opacity: 1; }
 }
 .work-item:hover .thumb-wrap { transform: scale(1.06); }
 .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-.vid-preview {
-  position: absolute; inset: 0; z-index: 2;
-  opacity: 0; transition: opacity 0.5s; pointer-events: none;
-}
-.vid-preview video { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.4); }
-.work-item:hover .vid-preview { opacity: 1; }
 
 .item-num {
   position: absolute; top: 1rem; left: 1rem; z-index: 4;
@@ -441,15 +382,6 @@ body.c-hover .cursor-label { opacity: 1; }
 .mp-info::-webkit-scrollbar { display: none; }
 #backdrop.open .mp-info { opacity: 1; transform: translateX(0); }
 
-/* grain dentro del panel info */
-.mp-info::after {
-  content: ''; position: absolute; inset: -50px;
-  width: calc(100% + 100px); height: calc(100% + 100px);
-  pointer-events: none; z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.07; mix-blend-mode: multiply;
-}
-
 /* número fantasma */
 .mp-ghost {
   position: absolute; bottom: -2rem; right: -1rem;
@@ -522,23 +454,6 @@ body.c-hover .cursor-label { opacity: 1; }
 .mp-srv-dash { color: var(--gold); flex-shrink: 0; font-size: 0.7rem; position: relative; z-index: 1; }
 .mp-srv-name { position: relative; z-index: 1; }
 
-.mp-meta {
-  display: grid; grid-template-columns: 1fr 1fr;
-  border: 1px solid var(--border); margin: 2rem 0;
-}
-.mp-cell {
-  padding: 0.9rem 1rem;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.mp-cell:nth-child(even)      { border-right: none; }
-.mp-cell:nth-last-child(-n+2) { border-bottom: none; }
-.mp-cell-k {
-  font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase;
-  color: var(--ink-dim); margin-bottom: 0.35rem;
-}
-.mp-cell-v { font-size: 0.8rem; letter-spacing: 0.04em; color: var(--ink-muted); }
-
 .mp-spacer { flex: 1 1 auto; min-height: 1.5rem; }
 
 .mp-nav {
@@ -548,7 +463,7 @@ body.c-hover .cursor-label { opacity: 1; }
 .mp-nav-btn {
   font-family: 'DM Mono', monospace;
   font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-  background: none; border: none; color: var(--ink-dim); cursor: none;
+  background: none; border: none; color: var(--ink-dim); cursor: pointer;
   display: flex; align-items: center; gap: 0.45rem;
   position: relative; padding-bottom: 2px;
   transition: color 0.25s;
@@ -573,7 +488,7 @@ body.c-hover .cursor-label { opacity: 1; }
   text-align: center; text-decoration: none; color: var(--ink);
   background: transparent;
   border: 1px solid var(--ink);
-  position: relative; overflow: hidden; cursor: none;
+  position: relative; overflow: hidden; cursor: pointer;
   transition: color 0.45s var(--expo), border-color 0.45s;
 }
 .mp-cta::before {
@@ -592,7 +507,7 @@ body.c-hover .cursor-label { opacity: 1; }
 /* botón cerrar — fijo arriba derecha */
 .mp-close {
   position: fixed; top: 1.5rem; right: 1.5rem; z-index: 700;
-  width: 44px; height: 44px; cursor: none;
+  width: 44px; height: 44px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   border: 1px solid rgba(242,237,232,0.35);
   background: rgba(14,12,10,0.75);
@@ -688,7 +603,7 @@ body.c-hover .cursor-label { opacity: 1; }
   font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
   background: transparent; color: var(--ink);
   border: 1px solid var(--ink);
-  padding: 0.85rem 1.6rem; text-decoration: none; cursor: none;
+  padding: 0.85rem 1.6rem; text-decoration: none; cursor: pointer;
   position: relative; overflow: hidden; isolation: isolate;
   transition: border-color 0.45s var(--expo);
 }
@@ -732,20 +647,9 @@ footer {
   .about-left, .about-right, #contact { padding-left: 1.5rem; padding-right: 1.5rem; }
   .film-strip { display: none; }
 }
-@media (hover: none) {
-  .cursor-dot, .cursor-ring, .cursor-label { display: none; }
-}
 </style>
 </head>
 <body>
-
-<!-- GRAIN -->
-<div class="grain" aria-hidden="true"></div>
-
-<!-- CURSOR -->
-<div class="cursor-dot"   id="cdot"  aria-hidden="true"></div>
-<div class="cursor-ring"  id="cring" aria-hidden="true"></div>
-<div class="cursor-label" id="clab"  aria-hidden="true">Abrir</div>
 
 <!-- PRELOADER -->
 <div id="preloader" aria-hidden="true">
@@ -769,13 +673,6 @@ footer {
 <section id="hero">
   <div class="film-strip" aria-hidden="true"></div>
   <div class="hero-frame-num" aria-hidden="true">SAIMON © 2026 — FRAME 001</div>
-  <!--
-    Video de fondo (descomenta si tienes reel.mp4):
-  <div style="position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;">
-    <video src="videos/reel.mp4" autoplay muted loop playsinline
-      style="width:100%;height:100%;object-fit:cover;opacity:0.07;filter:saturate(0);mix-blend-mode:multiply;"></video>
-  </div>
-  -->
   <div class="hero-inner">
     <div class="hero-tag">
       <span class="hero-tag-line"></span>
@@ -926,7 +823,6 @@ footer {
 <!-- ── SCRIPTS ────────────────────────────────────────────── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>
 // ─── DATA ────────────────────────────────────────────────
 // Para activar el video: pega el ID de YouTube en `youtubeId`.
@@ -958,45 +854,10 @@ const buildWatchUrl = id => id ? `https://www.youtube.com/watch?v=${id}` : '';
 // ─── INIT ─────────────────────────────────────────────────
 gsap.registerPlugin(ScrollTrigger);
 
-const lenis = new Lenis({ lerp: 0.075 });
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add(t => lenis.raf(t * 1000));
-gsap.ticker.lagSmoothing(0);
-
 // nav scroll state
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
-
-// ─── CURSOR ───────────────────────────────────────────────
-if (window.matchMedia('(pointer: fine)').matches) {
-  const dot = document.getElementById('cdot');
-  const ring = document.getElementById('cring');
-  const lab  = document.getElementById('clab');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    gsap.to(dot, { x: mx, y: my, duration: 0.12, ease: 'power2.out' });
-    gsap.set(lab, { x: mx, y: my });
-  });
-
-  (function loopRing() {
-    rx += (mx - rx) * 0.1;
-    ry += (my - ry) * 0.1;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(loopRing);
-  })();
-
-  document.querySelectorAll('a, button, .work-item, .tag').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      document.body.classList.add('c-hover');
-      lab.textContent = el.classList.contains('work-item') ? 'Abrir' : 'Click';
-    });
-    el.addEventListener('mouseleave', () => document.body.classList.remove('c-hover'));
-  });
-}
 
 // ─── PRELOADER ────────────────────────────────────────────
 const preEl    = document.getElementById('preloader');
@@ -1116,14 +977,12 @@ function openModal(id) {
   currentId = id;
   renderModal(projects[id]);
   backdrop.classList.add('open');
-  lenis.stop();
   document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
   backdrop.classList.remove('open');
   setTimeout(() => { mMedia.innerHTML=''; mMedia.style.background=''; mInner.innerHTML=''; mGhost.textContent=''; }, 600);
-  lenis.start();
   document.body.style.overflow = '';
 }
 
@@ -1202,15 +1061,6 @@ document.addEventListener('keydown', e => {
   if (e.key==='Escape') closeModal();
   if (e.key==='ArrowRight') { const b=document.getElementById('mNext'); if(b) b.click(); }
   if (e.key==='ArrowLeft')  { const b=document.getElementById('mPrev'); if(b) b.click(); }
-});
-
-// ─── MAGNETIC BUTTONS ─────────────────────────────────────
-document.querySelectorAll('.mp-cta').forEach(el => {
-  el.addEventListener('mousemove', e => {
-    const r = el.getBoundingClientRect();
-    gsap.to(el, { x:(e.clientX-r.left-r.width/2)*0.22, y:(e.clientY-r.top-r.height/2)*0.22, duration:0.4, ease:'power2.out' });
-  });
-  el.addEventListener('mouseleave', () => gsap.to(el, { x:0, y:0, duration:0.7, ease:'elastic.out(1, 0.45)' }));
 });
 </script>
 </body>
