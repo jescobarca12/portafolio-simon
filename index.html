@@ -899,7 +899,7 @@ let activeTipo = 'all', activeCat = 'all', currentId = 0;
 const canHover = matchMedia('(hover: hover)').matches
               && matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
-projects.forEach((p, i) => {
+projects.sort((a, b) => a.id - b.id).forEach((p, i) => {
   const el = document.createElement('div');
   el.className = 'work-item';
   el.dataset.id = p.id;
