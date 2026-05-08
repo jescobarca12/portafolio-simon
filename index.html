@@ -272,6 +272,17 @@ body {
 .work-item:hover .thumb-wrap { transform: scale(1.06); }
 .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+.vid-preview {
+  position: absolute; inset: 0; z-index: 2;
+  opacity: 0; transition: opacity 0.45s var(--expo);
+  pointer-events: none; background: #000;
+}
+.vid-preview iframe {
+  width: 100%; height: 100%; border: 0; display: block;
+  pointer-events: none;
+}
+.work-item.previewing .vid-preview { opacity: 1; }
+
 .item-num {
   position: absolute; top: 1rem; left: 1rem; z-index: 4;
   font-size: 0.7rem; letter-spacing: 0.25em; color: var(--bg);
@@ -819,21 +830,21 @@ footer {
 // Ej: si la URL es https://youtu.be/dQw4w9WgXcQ → youtubeId: 'dQw4w9WgXcQ'
 // Mientras esté vacío, el modal muestra la miniatura con un play encima.
 const projects = [
-  { id:0,  tipo:'reel',    title:'Video Reel - Laura',          client:'Laura',                tags:['Reel','Marca personal','Ecommerce'],          servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/REEL LAURA.png',                 youtubeId:'', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
-  { id:1,  tipo:'reel',    title:'Video Reel - Daniela',        client:'Daniela',              tags:['Reel','Marca personal','Ecommerce'],          servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/REEL DANIELA 2.png',             youtubeId:'', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
-  { id:2,  tipo:'reel',    title:'Video Reel - Daniela',        client:'Daniela',              tags:['Reel','Marca personal','Ecommerce'],          servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/REEL DANIELA 3.png',             youtubeId:'', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
-  { id:3,  tipo:'reel',    title:'Video reel - Marco',          client:'Marco',                tags:['Reel','Marca personal'],                      servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/VIDEO REEL - MARCO.png',         youtubeId:'', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
-  { id:4,  tipo:'motion',  title:'Video reel - Julian Mora',    client:'Julian Mora',          tags:['Motion Graphics','Marca personal'],           servicios:['Motion Graphics','Color grading','Subtítulos animados'],         thumb:'imagenes/COMO DELEGAR - JULIAN MORA.png', youtubeId:'', year:'2024', desc:'Pieza con motion graphics, color grading y subtítulos animados desarrollada para reforzar la identidad del proyecto.' },
-  { id:5,  tipo:'motion',  title:'VSL - Revolution Academy',    client:'Revolution Academy',   tags:['Motion Graphics','VSL'],                      servicios:['Motion Graphics','Sound Design','Subtítulos animados'],          thumb:'imagenes/MOTION GRAPHICS - VSL JUANDI.png', youtubeId:'', year:'2024', desc:'Video Sales Letter con énfasis en motion graphics y diseño sonoro para reforzar el mensaje de venta.' },
-  { id:6,  tipo:'vsl',     title:'VSL - Juan Pablo',            client:'Juan Pablo',           tags:['VSL','Marca personal'],                       servicios:['Sound Design','Subtítulos animados','Broll cliente','Transiciones'], thumb:'imagenes/VIDEO DE VENTA - JUAN PABLO.png', youtubeId:'', year:'2024', desc:'Video Sales Letter editado para conversión, con sound design, subtítulos y B-roll del cliente.' },
-  { id:7,  tipo:'vsl',     title:'VSL - LatinAcademy',          client:'LatinAcademy',         tags:['VSL','Motion Graphics'],                      servicios:['Sound Design','Subtítulos animados','Motion Graphics'],          thumb:'imagenes/VSL PAU.png',                    youtubeId:'', year:'2024', desc:'Video Sales Letter con motion graphics, sound design y dinámica narrativa de venta.' },
-  { id:8,  tipo:'youtube', title:'Youtube - SantiChill',        client:'SantiChill',           tags:['Youtube','Marca personal'],                   servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/SANTI - 10M.jpg',              youtubeId:'', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y narrativa visual continuada.' },
-  { id:9,  tipo:'youtube', title:'Youtube - SantiChill',        client:'SantiChill',           tags:['Youtube','Marca personal'],                   servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/SANTI - 20M.jpg',              youtubeId:'', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y narrativa visual continuada.' },
-  { id:10, tipo:'youtube', title:'Youtube vlog - SantiChill',   client:'SantiChill',           tags:['Youtube','Marca personal','Motion Graphics'], servicios:['Color grading','Sound Design','Broll cliente','Transiciones'],   thumb:'imagenes/Miniatura vlog RD.jpg',          youtubeId:'', year:'2024', desc:'Vlog editado para YouTube con color grading, sound design y ritmo narrativo sostenido.' },
-  { id:11, tipo:'youtube', title:'Youtube - Daniela',           client:'Daniela',              tags:['Youtube','Ecommerce'],                        servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/YT DANIELA.png',                youtubeId:'', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y B-roll integrado.' },
-  { id:12, tipo:'youtube', title:'Youtube - Laura',             client:'Laura',                tags:['Youtube','Marca personal','Ecommerce'],       servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/YT LAURA .png',                 youtubeId:'', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y B-roll integrado.' },
-  { id:13, tipo:'vsl',     title:'VSL - Sales Mastery Club',    client:'Sales Mastery Club',   tags:['VSL','Marca personal'],                       servicios:['Sound Design','Subtítulos animados'],                            thumb:'imagenes/VSL LAURA.png',                  youtubeId:'', year:'2024', desc:'Video Sales Letter editado para conversión, con sound design y subtítulos animados.' },
-  { id:14, tipo:'youtube', title:'Youtube vlog - Cristian',     client:'Cristian',             tags:['Youtube','Marca personal'],                   servicios:['Color grading','Sound Design','Broll cliente','Transiciones'],   thumb:'imagenes/CRISTIAN BARBOSA.jpg',           youtubeId:'', year:'2024', desc:'Vlog editado para YouTube con color grading, sound design y ritmo narrativo sostenido.' },
+  { id:0,  tipo:'reel',    title:'Video Reel - Laura',          client:'Laura',                tags:['Reel','Marca personal','Ecommerce'],          servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/REEL LAURA.png',                 youtubeId:'Cs8LEJ9ROKw', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
+  { id:1,  tipo:'reel',    title:'Video Reel - Daniela',        client:'Daniela',              tags:['Reel','Marca personal','Ecommerce'],          servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/REEL DANIELA 2.png',             youtubeId:'FFk-VicjOlk', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
+  { id:2,  tipo:'reel',    title:'Video Reel - Daniela',        client:'Daniela',              tags:['Reel','Marca personal','Ecommerce'],          servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/REEL DANIELA 3.png',             youtubeId:'F2ex5-OTUWM', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
+  { id:3,  tipo:'reel',    title:'Video reel - Marco',          client:'Marco',                tags:['Reel','Marca personal'],                      servicios:['Subtítulos animados','Transiciones','Broll cliente'],            thumb:'imagenes/VIDEO REEL - MARCO.png',         youtubeId:'9OlAtA43xIs', year:'2024', desc:'Edición de reel para redes sociales con foco en ritmo, subtítulos animados y B-roll proporcionado por el cliente.' },
+  { id:4,  tipo:'motion',  title:'Video reel - Julian Mora',    client:'Julian Mora',          tags:['Motion Graphics','Marca personal'],           servicios:['Motion Graphics','Color grading','Subtítulos animados'],         thumb:'imagenes/COMO DELEGAR - JULIAN MORA.png', youtubeId:'PENTKG16syg', year:'2024', desc:'Pieza con motion graphics, color grading y subtítulos animados desarrollada para reforzar la identidad del proyecto.' },
+  { id:5,  tipo:'motion',  title:'VSL - Revolution Academy',    client:'Revolution Academy',   tags:['Motion Graphics','VSL'],                      servicios:['Motion Graphics','Sound Design','Subtítulos animados'],          thumb:'imagenes/MOTION GRAPHICS - VSL JUANDI.png', youtubeId:'xFyh10_9Hxs', year:'2024', desc:'Video Sales Letter con énfasis en motion graphics y diseño sonoro para reforzar el mensaje de venta.' },
+  { id:6,  tipo:'vsl',     title:'VSL - Juan Pablo',            client:'Juan Pablo',           tags:['VSL','Marca personal'],                       servicios:['Sound Design','Subtítulos animados','Broll cliente','Transiciones'], thumb:'imagenes/VIDEO DE VENTA - JUAN PABLO.png', youtubeId:'O2qDhVlApo0', year:'2024', desc:'Video Sales Letter editado para conversión, con sound design, subtítulos y B-roll del cliente.' },
+  { id:7,  tipo:'vsl',     title:'VSL - LatinAcademy',          client:'LatinAcademy',         tags:['VSL','Motion Graphics'],                      servicios:['Sound Design','Subtítulos animados','Motion Graphics'],          thumb:'imagenes/VSL PAU.png',                    youtubeId:'kWCJzmrFrHg', year:'2024', desc:'Video Sales Letter con motion graphics, sound design y dinámica narrativa de venta.' },
+  { id:8,  tipo:'youtube', title:'Youtube - SantiChill',        client:'SantiChill',           tags:['Youtube','Marca personal'],                   servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/SANTI - 10M.jpg',              youtubeId:'D5S1-9c7D8M', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y narrativa visual continuada.' },
+  { id:9,  tipo:'youtube', title:'Youtube - SantiChill',        client:'SantiChill',           tags:['Youtube','Marca personal'],                   servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/SANTI - 20M.jpg',              youtubeId:'hnuaHunPu-s', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y narrativa visual continuada.' },
+  { id:10, tipo:'youtube', title:'Youtube vlog - SantiChill',   client:'SantiChill',           tags:['Youtube','Marca personal','Motion Graphics'], servicios:['Color grading','Sound Design','Broll cliente','Transiciones'],   thumb:'imagenes/Miniatura vlog RD.jpg',          youtubeId:'AmKKPVnplmA', year:'2024', desc:'Vlog editado para YouTube con color grading, sound design y ritmo narrativo sostenido.' },
+  { id:11, tipo:'youtube', title:'Youtube - Daniela',           client:'Daniela',              tags:['Youtube','Ecommerce'],                        servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/YT DANIELA.png',                youtubeId:'2z3pRJKU0zk', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y B-roll integrado.' },
+  { id:12, tipo:'youtube', title:'Youtube - Laura',             client:'Laura',                tags:['Youtube','Marca personal','Ecommerce'],       servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/YT LAURA .png',                 youtubeId:'K_UQOg6jw0Q', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y B-roll integrado.' },
+  { id:13, tipo:'vsl',     title:'VSL - Sales Mastery Club',    client:'Sales Mastery Club',   tags:['VSL','Marca personal'],                       servicios:['Sound Design','Subtítulos animados'],                            thumb:'imagenes/VSL LAURA.png',                  youtubeId:'yYrz0FbRi5M', year:'2024', desc:'Video Sales Letter editado para conversión, con sound design y subtítulos animados.' },
+  { id:14, tipo:'youtube', title:'Youtube vlog - Cristian',     client:'Cristian',             tags:['Youtube','Marca personal'],                   servicios:['Color grading','Sound Design','Broll cliente','Transiciones'],   thumb:'imagenes/CRISTIAN BARBOSA.jpg',           youtubeId:'Kq1SSvIb_GU', year:'2024', desc:'Vlog editado para YouTube con color grading, sound design y ritmo narrativo sostenido.' },
 ];
 
 const TIPO_LABELS = { reel:'Reel', motion:'Motion Graphics', vsl:'VSL', youtube:'Youtube' };
@@ -885,6 +896,9 @@ const grid    = document.getElementById('grid');
 const countEl = document.getElementById('count');
 let activeTipo = 'all', activeCat = 'all', currentId = 0;
 
+const canHover = matchMedia('(hover: hover)').matches
+              && matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
 projects.forEach((p, i) => {
   const el = document.createElement('div');
   el.className = 'work-item';
@@ -896,6 +910,7 @@ projects.forEach((p, i) => {
 
   el.innerHTML = `
     <div class="thumb-wrap"><img class="thumb-img" src="${p.thumb}" alt="${p.title}" loading="lazy"></div>
+    <div class="vid-preview"></div>
     <div class="item-num">${numStr}</div>
     <div class="item-overlay">
       <div class="item-tags">${p.tags.map(t=>`<span class="item-tag">${t}</span>`).join('')}</div>
@@ -904,12 +919,38 @@ projects.forEach((p, i) => {
     </div>`;
 
   el.addEventListener('click', () => openModal(p.id));
+
+  if (canHover && p.youtubeId) {
+    let timer;
+    el.addEventListener('pointerenter', () => {
+      timer = setTimeout(() => {
+        const wrap = el.querySelector('.vid-preview');
+        if (!wrap.firstChild) {
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://www.youtube.com/embed/${p.youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${p.youtubeId}&modestbranding=1&playsinline=1&rel=0&disablekb=1`;
+          iframe.allow = 'autoplay';
+          wrap.appendChild(iframe);
+        }
+        el.classList.add('previewing');
+      }, 400);
+    });
+    el.addEventListener('pointerleave', () => {
+      clearTimeout(timer);
+      el.classList.remove('previewing');
+      const wrap = el.querySelector('.vid-preview');
+      setTimeout(() => {
+        if (!el.classList.contains('previewing')) wrap.innerHTML = '';
+      }, 500);
+    });
+  }
+
   grid.appendChild(el);
 });
 
 // scroll reveal grid
+gsap.set('.work-item', { opacity: 0, y: 44 });
 ScrollTrigger.batch('.work-item:not(.hidden)', {
-  onEnter: els => gsap.from(els, { opacity:0, y:44, duration:0.8, stagger:0.1, ease:'power3.out' }),
+  onEnter: els => gsap.to(els, { opacity:1, y:0, duration:0.8, stagger:0.1, ease:'power3.out', overwrite:'auto' }),
   once: true, start: 'top 90%'
 });
 
