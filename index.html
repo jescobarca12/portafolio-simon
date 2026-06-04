@@ -733,7 +733,7 @@ footer {
       <div class="section-index">02 — Trabajos recientes</div>
       <div class="section-title-lg">Portfolio</div>
     </div>
-    <div class="section-total"><span id="count">15</span> proyectos</div>
+    <div class="section-total"><span id="count">16</span> proyectos</div>
   </div>
   <div class="filters-strip">
     <div class="tag active" data-group="tipo" data-val="all"><span>All</span></div>
@@ -845,6 +845,7 @@ const projects = [
   { id:12, tipo:'youtube', title:'Youtube - Laura',             client:'Laura',                tags:['Youtube','Marca personal','Ecommerce'],       servicios:['Color grading','Sound Design','Subtítulos animados','Broll cliente'], thumb:'imagenes/YT LAURA .png',                 youtubeId:'2z3pRJKU0zk', year:'2024', desc:'Edición long-form para YouTube con color grading, sound design, subtítulos animados y B-roll integrado.' },
   { id:13, tipo:'vsl',     title:'VSL - Sales Mastery Club',    client:'Sales Mastery Club',   tags:['VSL','Marca personal'],                       servicios:['Sound Design','Subtítulos animados'],                            thumb:'imagenes/VSL LAURA.png',                  youtubeId:'yYrz0FbRi5M', year:'2024', desc:'Video Sales Letter editado para conversión, con sound design y subtítulos animados.' },
   { id:14, tipo:'youtube', title:'Youtube vlog - Cristian',     client:'Cristian',             tags:['Youtube','Marca personal'],                   servicios:['Color grading','Sound Design','Broll cliente','Transiciones'],   thumb:'imagenes/CRISTIAN BARBOSA.jpg',           youtubeId:'Kq1SSvIb_GU', year:'2024', desc:'Vlog editado para YouTube con color grading, sound design y ritmo narrativo sostenido.' },
+  { id:15, tipo:'vsl',     title:'VSL - Sebas Vercel',          client:'Sebas Vercel',         tags:['Ecommerce','VSL','Motion Graphics'],          servicios:['Sound Design','Broll cliente','Transiciones','Subtítulos animados','Motion Graphics'], thumb:'imagenes/VSL SEBAS VERCEL.jpeg', youtubeId:'dbI-78Xq5q4', year:'2024', desc:'Video Sales Letter para ecommerce con motion graphics, sound design, subtítulos animados y B-roll del cliente.' },
 ];
 
 const TIPO_LABELS = { reel:'Reel', motion:'Motion Graphics', vsl:'VSL', youtube:'Youtube' };
@@ -972,10 +973,13 @@ gsap.from('.contact-h2',{ scrollTrigger:{ trigger:'#contact', start:'top 80%' },
 // ─── FILTERS ──────────────────────────────────────────────
 function applyFilters() {
   let v = 0;
+  const tipoLabel = TIPO_LABELS[activeTipo];
   document.querySelectorAll('.work-item').forEach(el => {
     const tags = (el.dataset.tags || '').split('|');
-    const show = (activeTipo==='all' || el.dataset.tipo===activeTipo)
-              && (activeCat==='all'  || tags.includes(activeCat));
+    const matchTipo = activeTipo==='all'
+                   || el.dataset.tipo===activeTipo
+                   || tags.includes(tipoLabel);
+    const show = matchTipo && (activeCat==='all' || tags.includes(activeCat));
     el.classList.toggle('hidden',!show);
     if(show) v++;
   });
@@ -998,10 +1002,13 @@ const mGhost   = document.getElementById('mGhost');
 const mInner   = document.getElementById('mInner');
 
 function visibleIds() {
-  return projects.filter(p =>
-    (activeTipo==='all' || p.tipo===activeTipo) &&
-    (activeCat==='all'  || p.tags.includes(activeCat))
-  ).map(p => p.id);
+  const tipoLabel = TIPO_LABELS[activeTipo];
+  return projects.filter(p => {
+    const matchTipo = activeTipo==='all'
+                   || p.tipo===activeTipo
+                   || p.tags.includes(tipoLabel);
+    return matchTipo && (activeCat==='all' || p.tags.includes(activeCat));
+  }).map(p => p.id);
 }
 
 function openModal(id) {
