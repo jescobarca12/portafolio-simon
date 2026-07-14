@@ -4,6 +4,9 @@ CLAUDE.md
 
 # Scripts internos / herramientas de mantenimiento
 compress_images.py
+__pycache__/
+# Backups de imágenes sin comprimir (solo locales)
+imagenes/originales/
 
 # OS
 .DS_Store
