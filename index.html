@@ -1130,11 +1130,20 @@ projects.sort((a, b) => a.id - b.id).forEach((p, i) => {
 });
 
 // scroll reveal grid
+// Se usa IntersectionObserver en vez de ScrollTrigger.batch porque el observer
+// recalcula solo cuando el layout cambia (al filtrar se ocultan cards y las
+// demas suben). Con ScrollTrigger las posiciones quedaban obsoletas y las
+// cards que subian al viewport no se revelaban hasta volver a scrollear.
 gsap.set('.work-item', { opacity: 0, y: 44 });
-ScrollTrigger.batch('.work-item:not(.hidden)', {
-  onEnter: els => gsap.to(els, { opacity:1, y:0, duration:0.8, stagger:0.1, ease:'power3.out', overwrite:'auto' }),
-  once: true, start: 'top 90%'
-});
+const revealObserver = new IntersectionObserver(entries => {
+  const els = entries.filter(e => e.isIntersecting).map(e => e.target);
+  if (!els.length) return;
+  gsap.to(els, { opacity:1, y:0, duration:0.8, stagger:0.1, ease:'power3.out', overwrite:'auto' });
+  els.forEach(el => revealObserver.unobserve(el));
+// el margen superior enorme hace que una card que quedo por encima del
+// viewport (salto de scroll grande) tambien cuente como visible
+}, { rootMargin: '100000px 0px -10% 0px' });
+document.querySelectorAll('.work-item').forEach(el => revealObserver.observe(el));
 
 // skill bars
 ScrollTrigger.create({
@@ -1165,6 +1174,8 @@ function applyFilters() {
     if(show) v++;
   });
   countEl.textContent = v;
+  // el resto de triggers (skills, about, contact) si depende de posiciones
+  ScrollTrigger.refresh();
 }
 document.querySelectorAll('.tag').forEach(tag => {
   tag.addEventListener('click', () => {
