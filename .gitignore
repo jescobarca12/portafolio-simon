@@ -5,6 +5,8 @@ CLAUDE.md
 # Scripts internos / herramientas de mantenimiento
 compress_images.py
 __pycache__/
+# Grafo de conocimiento generado por la skill graphify (cache local)
+graphify-out/
 # Backups de imágenes sin comprimir (solo locales)
 imagenes/originales/
 
