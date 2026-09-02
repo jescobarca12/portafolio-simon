@@ -644,7 +644,7 @@ a:focus-visible, button:focus-visible, .tag:focus-visible, .work-item:focus-visi
   display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
 }
 .about-card { border-radius: var(--r-lg); padding: 2.8rem 2.4rem; }
-.about-card.left { display: flex; flex-direction: column; justify-content: space-between; gap: 3rem; }
+.about-card.left { padding: 0; overflow: hidden; }
 .about-card.right { display: flex; flex-direction: column; gap: 2.2rem; }
 
 .about-h2 {
@@ -657,17 +657,27 @@ a:focus-visible, button:focus-visible, .tag:focus-visible, .work-item:focus-visi
   -webkit-text-fill-color: transparent; color: transparent;
 }
 
-.stats-row { display: flex; gap: 0.8rem; }
-.stat {
-  flex: 1; text-align: center;
-  padding: 1.1rem 0.6rem; border-radius: var(--r-sm);
-  background: var(--glass); border: 1px solid var(--stroke);
+.about-photo {
+  position: relative; margin: 0;
+  height: 100%; min-height: 420px;
 }
-.stat-n { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 600; line-height: 1; color: var(--accent-hi); }
-.stat-l {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--dim); margin-top: 0.5rem;
+/* la imagen en absolute para que sea la card (no la foto) quien fije la
+   altura de la fila; el recorte se ancla arriba para no cortar la cara */
+.about-photo img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 38%;
+}
+/* degradado negro para que el texto se lea sobre la foto */
+.about-photo::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.74) 26%,
+    rgba(0,0,0,0.3) 55%, transparent 80%);
+}
+.about-photo-txt {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+  padding: 2.8rem 2.4rem 2.4rem;
 }
 
 .about-bio {
@@ -889,17 +899,15 @@ footer {
 <section id="about">
   <div class="about-inner">
     <div class="about-card left glass">
-      <div>
-        <div class="eyebrow">Sobre mí</div>
-        <h2 class="about-h2">
-          Editar no es decorar.<br><span class="grad">Es retener.</span>
-        </h2>
-      </div>
-      <div class="stats-row">
-        <div class="stat"><div class="stat-n">19+</div><div class="stat-l">Proyectos</div></div>
-        <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Clientes</div></div>
-        <div class="stat"><div class="stat-n">4</div><div class="stat-l">Especialidades</div></div>
-      </div>
+      <figure class="about-photo">
+        <img src="imagenes/sobre-mi.jpg" alt="Saimon grabando en exteriores con cámara y gimbal" loading="lazy" width="1200" height="2133">
+        <figcaption class="about-photo-txt">
+          <div class="eyebrow">Sobre mí</div>
+          <h2 class="about-h2">
+            Editar no es decorar.<br><span class="grad">Es retener.</span>
+          </h2>
+        </figcaption>
+      </figure>
     </div>
     <div class="about-card right glass">
       <p class="about-bio">
@@ -1157,7 +1165,7 @@ ScrollTrigger.create({
 
 // about & contact
 gsap.from('.about-h2', { scrollTrigger:{ trigger:'#about', start:'top 75%' }, opacity:0, y:35, duration:1, ease:'power3.out' });
-gsap.from('.stat',     { scrollTrigger:{ trigger:'.stats-row', start:'top 85%' }, opacity:0, y:18, stagger:0.12, duration:0.8, ease:'power3.out' });
+gsap.from('.about-photo', { scrollTrigger:{ trigger:'.about-photo', start:'top 85%' }, opacity:0, y:24, duration:0.9, ease:'power3.out' });
 gsap.from('.contact-h2',{ scrollTrigger:{ trigger:'#contact', start:'top 80%' }, opacity:0, y:30, duration:1, ease:'power3.out' });
 
 // ─── FILTERS ──────────────────────────────────────────────
