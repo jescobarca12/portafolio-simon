@@ -683,26 +683,12 @@ a:focus-visible, button:focus-visible, .tag:focus-visible, .work-item:focus-visi
 .about-bio {
   font-size: 0.92rem; line-height: 1.9; color: var(--muted);
 }
-
-.skills { display: flex; flex-direction: column; gap: 1.05rem; }
-.skill-row { display: flex; flex-direction: column; gap: 0.45rem; }
-.skill-top { display: flex; justify-content: space-between; align-items: baseline; }
-.skill-name { font-size: 0.84rem; font-weight: 400; color: var(--text); }
-.skill-pct {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem; letter-spacing: 0.14em; color: var(--dim);
+.about-bio p + p { margin-top: 1.15rem; }
+.about-hi {
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  font-weight: 600; line-height: 1.35; color: var(--text);
 }
-.skill-track {
-  height: 6px; border-radius: var(--pill);
-  background: rgba(255,255,255,0.07);
-  overflow: hidden; position: relative;
-}
-.skill-fill {
-  position: absolute; inset: 0; border-radius: var(--pill);
-  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
-  box-shadow: 0 0 12px rgba(0,210,255,0.35);
-  transform: scaleX(0); transform-origin: left;
-}
+.about-outro { color: var(--text); }
 
 /* ─── CONTACT ────────────────────────────────────────────── */
 #contact { padding: 4.5rem 1.5rem 5rem; display: flex; justify-content: center; }
@@ -910,20 +896,37 @@ footer {
       </figure>
     </div>
     <div class="about-card right glass">
-      <p class="about-bio">
-        Editor de video enfocado en contenido que vende: Reels, VSLs, motion graphics
-        y YouTube long-form para marcas personales y ecommerce. La edición no es
-        decorar el video — es la diferencia entre que el espectador llegue al
-        último segundo o pase scrolleando.<br><br>
-        Cada proyecto empieza con la misma pregunta: ¿qué necesita sentir quien lo
-        vea para no irse? El resto es ritmo, sonido y subtítulos.
-      </p>
-      <div class="skills">
-        <div class="skill-row"><div class="skill-top"><span class="skill-name">Edición de Reels</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.95"></div></div></div>
-        <div class="skill-row"><div class="skill-top"><span class="skill-name">VSL Editing</span><span class="skill-pct">92%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.92"></div></div></div>
-        <div class="skill-row"><div class="skill-top"><span class="skill-name">YouTube Long-form</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.90"></div></div></div>
-        <div class="skill-row"><div class="skill-top"><span class="skill-name">Motion Graphics</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.85"></div></div></div>
-        <div class="skill-row"><div class="skill-top"><span class="skill-name">Sound Design &amp; Color</span><span class="skill-pct">82%</span></div><div class="skill-track"><div class="skill-fill" data-w="0.82"></div></div></div>
+      <div class="about-bio">
+        <p class="about-hi">Hola, mi nombre es Saimon</p>
+        <p>
+          Trabajo en el medio audiovisual desde hace aproximadamente 4 años y ha
+          sido un proceso increíble, de muchos aprendizajes, risas, estrés, pero
+          sobre todo, de mucho agradecimiento.
+        </p>
+        <p>
+          Lo que me atrapó del mundo audiovisual no fue solo grabar, fue lo que
+          pasaba después: la edición. Ese momento en que tienes horas de material
+          y tu trabajo es construir algo que emocione, que comunique, que no se
+          pueda parar de ver. Ahí entendí que la edición no es un paso final. Es
+          donde el proyecto realmente cobra vida.
+        </p>
+        <p>
+          Desde entonces me he especializado en eso: en transformar material crudo
+          en contenido que funciona. Trabajo con ritmo, con color, con sonido,
+          entendiendo que cada decisión en el timeline tiene un impacto en cómo el
+          espectador va a sentir lo que está viendo.
+        </p>
+        <p>
+          He tenido el privilegio de trabajar con creadores, marcas e
+          influenciadores que me han confiado su contenido, y cada proyecto ha sido
+          una oportunidad de seguir aprendiendo. Porque eso tampoco cambia: sigo
+          estudiando tendencias, sigo probando técnicas, sigo buscando ese detalle
+          de color o ese corte de audio que hace la diferencia.
+        </p>
+        <p class="about-outro">
+          Este portafolio es el resultado del proceso, la confianza y, sobre todo,
+          muchas noches sin dormir.
+        </p>
       </div>
     </div>
   </div>
@@ -1153,16 +1156,6 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { rootMargin: '100000px 0px -10% 0px' });
 document.querySelectorAll('.work-item').forEach(el => revealObserver.observe(el));
 
-// skill bars
-ScrollTrigger.create({
-  trigger: '.skills', start: 'top 80%', once: true,
-  onEnter() {
-    document.querySelectorAll('.skill-fill').forEach(b =>
-      gsap.to(b, { scaleX: parseFloat(b.dataset.w), duration: 1.6, ease: 'power3.out' })
-    );
-  }
-});
-
 // about & contact
 gsap.from('.about-h2', { scrollTrigger:{ trigger:'#about', start:'top 75%' }, opacity:0, y:35, duration:1, ease:'power3.out' });
 gsap.from('.about-photo', { scrollTrigger:{ trigger:'.about-photo', start:'top 85%' }, opacity:0, y:24, duration:0.9, ease:'power3.out' });
@@ -1182,7 +1175,7 @@ function applyFilters() {
     if(show) v++;
   });
   countEl.textContent = v;
-  // el resto de triggers (skills, about, contact) si depende de posiciones
+  // el resto de triggers (about, contact) si depende de posiciones
   ScrollTrigger.refresh();
 }
 document.querySelectorAll('.tag').forEach(tag => {
